@@ -1,0 +1,31 @@
+version: '3.6'
+services:
+  nodejs:
+    build: .
+    image: nodejs_img
+    container_name: nodejs_cont
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12.4
+    container_name: co-postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+
+networks:
+  co-network:
+    driver: bridge
+
+volumes:
+  postgres:
+  node_modules:
